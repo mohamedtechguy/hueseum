@@ -2210,11 +2210,14 @@ details p {
   }
 
   .detail__image {
-    min-height: 100%;
     position: sticky;
     top: 0;
     align-self: start;
-    max-height: calc(100dvh - 1rem);
+    height: calc(100dvh - 1rem);
+  }
+
+  .detail__image img {
+    max-height: calc(100dvh - 5rem);
   }
 
   .two-col {
