@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Explore by colour | Hueseum</title>
+  <meta name="description" content="Search the Art Institute of Chicago's collection by dominant colour, era and type of work.">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,500..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/common.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/explore.js" defer></script>
+</head>
+<body id="page-explore">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html" aria-label="Hueseum home">
+        <svg class="brand__mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <path d="M32 4 L60 20 H4 Z" fill="currentColor"/>
+          <rect x="4" y="22" width="56" height="4" fill="currentColor"/>
+          <rect x="8" y="29" width="6" height="22" fill="#D9381E"/>
+          <rect x="17" y="29" width="6" height="22" fill="#E6B422"/>
+          <rect x="26" y="29" width="6" height="22" fill="#3A9A5B"/>
+          <rect x="35" y="29" width="6" height="22" fill="#2A7AB0"/>
+          <rect x="44" y="29" width="6" height="22" fill="#2A3FC0"/>
+          <rect x="53" y="29" width="3" height="22" fill="#8A1E5C"/>
+          <rect x="4" y="54" width="56" height="6" fill="currentColor"/>
+        </svg>
+        <span class="brand__word">Hueseum</span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-toggle__bars" aria-hidden="true"></span>
+        <span class="menu-toggle__label">Menu</span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul class="site-nav__list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="explore.html" aria-current="page">Explore by colour</a></li>
+          <li><a href="exhibition.html">My exhibition <span class="count-badge" data-exhibition-count>0</span></a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+        <button class="lights-toggle" type="button" aria-pressed="false" data-lights-toggle>
+          <span class="lights-toggle__dot" aria-hidden="true"></span>
+          <span data-lights-label>Lights off</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="wrap explore">
+
+      <header class="page-head explore__head">
+        <p class="eyebrow">Explore by colour</p>
+        <h1>Find works that share a colour</h1>
+        <p class="lede">Choose a colour and press <strong>Search the collection</strong>. Results show each work's own dominant colour, so you can see how close the match is.</p>
+      </header>
+
+      <form class="search-form" id="search-form" novalidate aria-describedby="search-help">
+        <p id="search-help" class="visually-hidden">All fields except colour are optional.</p>
+
+        <fieldset class="field-group">
+          <legend>1. Colour</legend>
+
+          <div class="colour-row">
+            <div class="field">
+              <label for="colour-picker">Pick a colour</label>
+              <input type="color" id="colour-picker" name="colour" value="#2a3fc0">
+            </div>
+            <div class="field field--grow">
+              <label for="colour-hex">or type a hex code</label>
+              <input type="text" id="colour-hex" name="hex" value="#2A3FC0" inputmode="text" autocomplete="off" spellcheck="false" maxlength="7" pattern="^#?[0-9A-Fa-f]{6}$" aria-describedby="colour-hex-hint colour-hex-error" required>
+              <p class="hint" id="colour-hex-hint">Six characters, for example <code>#D9381E</code>.</p>
+              <p class="error" id="colour-hex-error" data-error-for="colour-hex"></p>
+            </div>
+          </div>
+
+          <p class="colour-name" aria-live="polite">
+            <span class="colour-name__swatch" data-picked-swatch aria-hidden="true"></span>
+            <span>Colour name: <strong data-picked-name>Ultramarine</strong></span>
+          </p>
+
+          <fieldset class="pigment-presets">
+            <legend>Or start from a historic pigment</legend>
+            <div class="pigment-presets__list" id="pigment-presets">
+              <!-- Radio buttons built by explore.js from the shared pigment list -->
+            </div>
+          </fieldset>
+        </fieldset>
+
+        <fieldset class="field-group">
+          <legend>2. How close a match?</legend>
+          <div class="field">
+            <label for="tolerance">Hue tolerance</label>
+            <div class="range-row">
+              <span aria-hidden="true">Exact</span>
+              <input type="range" id="tolerance" name="tolerance" min="4" max="40" step="2" value="14" aria-describedby="tolerance-hint">
+              <span aria-hidden="true">Loose</span>
+              <output for="tolerance" id="tolerance-output" class="range-output">&plusmn;14&deg;</output>
+            </div>
+            <p class="hint" id="tolerance-hint">How many degrees around the colour wheel a work's colour can be from yours.</p>
+          </div>
+          <div class="field">
+            <span class="field__label" id="tone-label">Also match lightness and intensity?</span>
+            <div class="toggle-row" role="group" aria-labelledby="tone-label">
+              <label class="switch">
+                <input type="checkbox" id="match-tone" name="matchTone" checked>
+                <span class="switch__track" aria-hidden="true"></span>
+                <span>Match tone as well as hue</span>
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="field-group">
+          <legend>3. Narrow it down <span class="optional">(optional)</span></legend>
+
+          <div class="field">
+            <label for="keywords">Keywords</label>
+            <input type="search" id="keywords" name="q" list="keyword-ideas" maxlength="60" autocomplete="off" aria-describedby="keywords-hint">
+            <datalist id="keyword-ideas">
+              <option value="landscape"></option>
+              <option value="portrait"></option>
+              <option value="sea"></option>
+              <option value="flowers"></option>
+              <option value="night"></option>
+              <option value="city"></option>
+              <option value="snow"></option>
+              <option value="cat"></option>
+            </datalist>
+            <p class="hint" id="keywords-hint">Keywords move matching works to the top of the results.</p>
+          </div>
+
+          <div class="era-row">
+            <div class="field">
+              <label for="year-from">Made from (year)</label>
+              <input type="number" id="year-from" name="from" min="-3000" max="2026" step="1" placeholder="e.g. 1800" aria-describedby="year-hint year-error">
+            </div>
+            <div class="field">
+              <label for="year-to">to (year)</label>
+              <input type="number" id="year-to" name="to" min="-3000" max="2026" step="1" placeholder="e.g. 1950" aria-describedby="year-hint year-error">
+            </div>
+            <p class="hint era-row__hint" id="year-hint">Use negative numbers for BCE. Leave blank for any date.</p>
+            <p class="error era-row__hint" id="year-error" data-error-for="year-from"></p>
+          </div>
+
+          <fieldset class="checks">
+            <legend>Type of work</legend>
+            <div class="checks__list">
+              <label class="check"><input type="checkbox" name="type" value="Painting" checked> Painting</label>
+              <label class="check"><input type="checkbox" name="type" value="Print"> Print</label>
+              <label class="check"><input type="checkbox" name="type" value="Drawing and Watercolor"> Drawing and watercolour</label>
+              <label class="check"><input type="checkbox" name="type" value="Photograph"> Photograph</label>
+              <label class="check"><input type="checkbox" name="type" value="Textile"> Textile</label>
+              <label class="check"><input type="checkbox" name="type" value="Sculpture"> Sculpture</label>
+            </div>
+            <p class="hint">Leave all unticked to include every type.</p>
+          </fieldset>
+
+          <div class="field">
+            <label class="switch">
+              <input type="checkbox" id="public-domain" name="publicDomain">
+              <span class="switch__track" aria-hidden="true"></span>
+              <span>Public domain works only (free to reuse)</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="field-group field-group--inline">
+          <legend>4. Results</legend>
+          <div class="field">
+            <label for="per-page">Works per page</label>
+            <select id="per-page" name="limit">
+              <option value="12" selected>12</option>
+              <option value="24">24</option>
+              <option value="48">48</option>
+            </select>
+          </div>
+          <fieldset class="radios">
+            <legend>Sort by</legend>
+            <label class="radio"><input type="radio" name="sort" value="match" checked> Closest colour</label>
+            <label class="radio"><input type="radio" name="sort" value="relevance"> Relevance</label>
+            <label class="radio"><input type="radio" name="sort" value="oldest"> Oldest first</label>
+            <label class="radio"><input type="radio" name="sort" value="newest"> Newest first</label>
+          </fieldset>
+        </fieldset>
+
+        <div class="form-actions">
+          <button class="button button--primary" type="submit" id="search-submit">Search the collection</button>
+          <button class="button button--ghost" type="reset">Reset</button>
+        </div>
+      </form>
+
+      <section class="results" aria-labelledby="results-title">
+        <header class="results__head">
+          <h2 id="results-title">Results</h2>
+          <p class="status" id="results-status" role="status" aria-live="polite">Choose a colour and search to see matching works.</p>
+          <div class="neighbours" id="neighbours" hidden>
+            <p class="neighbours__label" id="neighbours-label">Nearby colours to try</p>
+            <ul class="neighbours__list" aria-labelledby="neighbours-label"></ul>
+          </div>
+        </header>
+        <ul class="art-grid" id="results-grid" aria-busy="false"></ul>
+        <p class="results__more">
+          <button class="button button--ghost" type="button" id="load-more" hidden>Show more works</button>
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <dialog class="artwork-dialog" id="artwork-dialog" aria-labelledby="dialog-title">
+    <div class="artwork-dialog__inner">
+      <button class="artwork-dialog__close" type="button" data-close-dialog aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="artwork-dialog__body" id="dialog-body">
+        <!-- Filled by explore.js when a work is opened -->
+      </div>
+    </div>
+  </dialog>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <p>Hueseum is a student web application. Artwork data and images: <a href="https://www.artic.edu/open-access/public-api">Art Institute of Chicago API</a>. Colour names: <a href="https://www.thecolorapi.com/">The Color API</a>. Artist biographies: <a href="https://en.wikipedia.org/">Wikipedia</a>.</p>
+      <ul class="site-footer__links">
+        <li><a href="about.html#accessibility">Accessibility</a></li>
+        <li><a href="about.html#feedback">Feedback</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

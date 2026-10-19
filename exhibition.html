@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My exhibition | Hueseum</title>
+  <meta name="description" content="Curate the works you collected on Hueseum, paint the gallery walls, and plan a visit to see them in person.">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,500..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/common.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/exhibition.js" defer></script>
+</head>
+<body id="page-exhibition">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html" aria-label="Hueseum home">
+        <svg class="brand__mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <path d="M32 4 L60 20 H4 Z" fill="currentColor"/>
+          <rect x="4" y="22" width="56" height="4" fill="currentColor"/>
+          <rect x="8" y="29" width="6" height="22" fill="#D9381E"/>
+          <rect x="17" y="29" width="6" height="22" fill="#E6B422"/>
+          <rect x="26" y="29" width="6" height="22" fill="#3A9A5B"/>
+          <rect x="35" y="29" width="6" height="22" fill="#2A7AB0"/>
+          <rect x="44" y="29" width="6" height="22" fill="#2A3FC0"/>
+          <rect x="53" y="29" width="3" height="22" fill="#8A1E5C"/>
+          <rect x="4" y="54" width="56" height="6" fill="currentColor"/>
+        </svg>
+        <span class="brand__word">Hueseum</span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-toggle__bars" aria-hidden="true"></span>
+        <span class="menu-toggle__label">Menu</span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul class="site-nav__list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="explore.html">Explore by colour</a></li>
+          <li><a href="exhibition.html" aria-current="page">My exhibition <span class="count-badge" data-exhibition-count>0</span></a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+        <button class="lights-toggle" type="button" aria-pressed="false" data-lights-toggle>
+          <span class="lights-toggle__dot" aria-hidden="true"></span>
+          <span data-lights-label>Lights off</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="wrap">
+      <header class="page-head">
+        <p class="eyebrow">My exhibition</p>
+        <h1 data-show-title>Untitled exhibition</h1>
+        <p class="lede">Works you collect on the Explore page hang here. Give your show a title, paint the walls, and change the running order. Everything is saved in this browser only.</p>
+      </header>
+    </div>
+
+    <section class="gallery-room" id="gallery-room" aria-labelledby="room-title">
+      <div class="wrap">
+        <div class="gallery-room__head">
+          <h2 id="room-title" class="visually-hidden">Hung works</h2>
+          <p class="palette-label" id="palette-label">Exhibition palette</p>
+          <ol class="palette-strip" id="palette-strip" aria-labelledby="palette-label"></ol>
+        </div>
+        <ol class="hung-works" id="hung-works" aria-live="polite"></ol>
+        <div class="empty-state" id="empty-state" hidden>
+          <h3>The walls are bare</h3>
+          <p>Open any work on the Explore page and choose <strong>Hang in my exhibition</strong>. You can hang up to 12 works.</p>
+          <p><a class="button button--primary" href="explore.html">Find works to hang</a></p>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap two-col">
+      <section class="panel" aria-labelledby="details-title">
+        <h2 id="details-title">Exhibition details</h2>
+        <form id="details-form" class="stack-form" novalidate>
+          <div class="field">
+            <label for="show-title">Exhibition title</label>
+            <input type="text" id="show-title" name="title" maxlength="60" required aria-describedby="show-title-error" autocomplete="off">
+            <p class="error" id="show-title-error" data-error-for="show-title"></p>
+          </div>
+          <div class="field">
+            <label for="curator">Curated by</label>
+            <input type="text" id="curator" name="curator" maxlength="40" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="statement">Curator's statement</label>
+            <textarea id="statement" name="statement" rows="4" maxlength="280" aria-describedby="statement-count"></textarea>
+            <p class="hint counter" id="statement-count" aria-live="polite">280 characters left</p>
+          </div>
+          <fieldset class="wall-paint">
+            <legend>Wall colour</legend>
+            <div class="wall-paint__list" id="wall-presets">
+              <label class="wall-chip"><input type="radio" name="wall" value="#EDEFF1" checked><span class="wall-chip__swatch"></span><span>Gallery white</span></label>
+              <label class="wall-chip"><input type="radio" name="wall" value="#2F3A4A"><span class="wall-chip__swatch"></span><span>Slate</span></label>
+              <label class="wall-chip"><input type="radio" name="wall" value="#7A2E2E"><span class="wall-chip__swatch"></span><span>Salon red</span></label>
+              <label class="wall-chip"><input type="radio" name="wall" value="#3E5B4A"><span class="wall-chip__swatch"></span><span>Library green</span></label>
+              <label class="wall-chip"><input type="radio" name="wall" value="custom"><span class="wall-chip__swatch wall-chip__swatch--custom"></span><span>Custom</span></label>
+            </div>
+            <div class="field" id="custom-wall-field" hidden>
+              <label for="custom-wall">Custom wall colour</label>
+              <input type="color" id="custom-wall" name="customWall" value="#C8B89A">
+            </div>
+          </fieldset>
+          <div class="form-actions">
+            <button class="button button--primary" type="submit">Save details</button>
+            <p class="status" id="details-status" role="status"></p>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel" aria-labelledby="visit-title">
+        <h2 id="visit-title">Plan a visit</h2>
+        <p>See your works in person. We check live which of them are on display in Chicago and build a route card for your trip.</p>
+        <form id="visit-form" class="stack-form" novalidate>
+          <div class="error-summary" id="visit-errors" tabindex="-1" hidden>
+            <h3>Please fix these before we build your card:</h3>
+            <ul></ul>
+          </div>
+
+          <div class="field">
+            <label for="visitor-name">Your name</label>
+            <input type="text" id="visitor-name" name="name" required minlength="2" maxlength="50" autocomplete="name" aria-describedby="visitor-name-error">
+            <p class="error" id="visitor-name-error" data-error-for="visitor-name"></p>
+          </div>
+
+          <div class="field-pair">
+            <div class="field">
+              <label for="visit-date">Visit date</label>
+              <input type="date" id="visit-date" name="date" required aria-describedby="visit-date-hint visit-date-error">
+              <p class="hint" id="visit-date-hint">Within the next 6 months.</p>
+              <p class="error" id="visit-date-error" data-error-for="visit-date"></p>
+            </div>
+            <div class="field">
+              <label for="arrival">Arrival time</label>
+              <select id="arrival" name="arrival" required aria-describedby="arrival-error">
+                <option value="">Choose a time</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+              </select>
+              <p class="error" id="arrival-error" data-error-for="arrival"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="group-size">Number of people</label>
+            <input type="number" id="group-size" name="group" min="1" max="12" value="1" required aria-describedby="group-size-error">
+            <p class="error" id="group-size-error" data-error-for="group-size"></p>
+          </div>
+
+          <fieldset class="radios">
+            <legend>Your pace</legend>
+            <label class="radio"><input type="radio" name="pace" value="3" checked> Quick look (about 3 minutes per work)</label>
+            <label class="radio"><input type="radio" name="pace" value="6"> Steady (about 6 minutes per work)</label>
+            <label class="radio"><input type="radio" name="pace" value="10"> Slow looking (about 10 minutes per work)</label>
+          </fieldset>
+
+          <fieldset class="checks">
+            <legend>Access needs <span class="optional">(optional)</span></legend>
+            <div class="checks__list">
+              <label class="check"><input type="checkbox" name="access" value="Step-free route"> Step-free route</label>
+              <label class="check"><input type="checkbox" name="access" value="Seating breaks"> Seating breaks</label>
+              <label class="check"><input type="checkbox" name="access" value="Large-print labels"> Large-print labels</label>
+              <label class="check"><input type="checkbox" name="access" value="Quieter times"> Quieter times</label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="visit-notes">Notes for your card <span class="optional">(optional)</span></label>
+            <textarea id="visit-notes" name="notes" rows="3" maxlength="200"></textarea>
+          </div>
+
+          <div class="field">
+            <label class="check">
+              <input type="checkbox" id="visit-confirm" name="confirm" required aria-describedby="visit-confirm-error">
+              I understand this is a planning card, not an admission ticket.
+            </label>
+            <p class="error" id="visit-confirm-error" data-error-for="visit-confirm"></p>
+          </div>
+
+          <div class="form-actions">
+            <button class="button button--primary" type="submit">Build my route card</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <section class="wrap route-card-wrap" id="route-card-wrap" aria-labelledby="route-card-title" hidden>
+      <h2 id="route-card-title">Your route card</h2>
+      <article class="route-card" id="route-card" tabindex="-1"></article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <p>Hueseum is a student web application. Artwork data and images: <a href="https://www.artic.edu/open-access/public-api">Art Institute of Chicago API</a>. Colour names: <a href="https://www.thecolorapi.com/">The Color API</a>. Artist biographies: <a href="https://en.wikipedia.org/">Wikipedia</a>.</p>
+      <ul class="site-footer__links">
+        <li><a href="about.html#accessibility">Accessibility</a></li>
+        <li><a href="about.html#feedback">Feedback</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

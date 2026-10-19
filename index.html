@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hueseum | Find art by colour</title>
+  <meta name="description" content="Hueseum lets you search the Art Institute of Chicago's collection by colour. Pick a colour, find paintings that share it, and curate your own exhibition.">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,500..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/common.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/home.js" defer></script>
+</head>
+<body id="page-home">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html" aria-label="Hueseum home">
+        <svg class="brand__mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <path d="M32 4 L60 20 H4 Z" fill="currentColor"/>
+          <rect x="4" y="22" width="56" height="4" fill="currentColor"/>
+          <rect x="8" y="29" width="6" height="22" fill="#D9381E"/>
+          <rect x="17" y="29" width="6" height="22" fill="#E6B422"/>
+          <rect x="26" y="29" width="6" height="22" fill="#3A9A5B"/>
+          <rect x="35" y="29" width="6" height="22" fill="#2A7AB0"/>
+          <rect x="44" y="29" width="6" height="22" fill="#2A3FC0"/>
+          <rect x="53" y="29" width="3" height="22" fill="#8A1E5C"/>
+          <rect x="4" y="54" width="56" height="6" fill="currentColor"/>
+        </svg>
+        <span class="brand__word">Hueseum</span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-toggle__bars" aria-hidden="true"></span>
+        <span class="menu-toggle__label">Menu</span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul class="site-nav__list">
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="explore.html">Explore by colour</a></li>
+          <li><a href="exhibition.html">My exhibition <span class="count-badge" data-exhibition-count>0</span></a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+        <button class="lights-toggle" type="button" aria-pressed="false" data-lights-toggle>
+          <span class="lights-toggle__dot" aria-hidden="true"></span>
+          <span data-lights-label>Lights off</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero__grid">
+        <div class="hero__text">
+          <p class="eyebrow">A colour-first way into a great art collection</p>
+          <h1 id="hero-title" class="hero__title">Pick a colour.<br>Walk the <span class="hero__accent">gallery</span>.</h1>
+          <p class="lede">Every image in the Art Institute of Chicago's collection has a measured dominant colour. Hueseum lets you search by it. Choose a shade, and we hang the works that share it.</p>
+          <p class="hero__actions">
+            <a class="button button--primary" href="explore.html">Start exploring</a>
+            <a class="button button--ghost" href="#how">How it works</a>
+          </p>
+        </div>
+
+        <figure class="hero__figure" aria-labelledby="pigment-caption">
+          <ul class="pigment-grid" id="pigment-grid">
+            <!-- Filled by home.js from the shared pigment list, so the chips match the presets on the Explore page -->
+          </ul>
+          <figcaption id="pigment-caption" class="caption">Historic pigments. Choose one to search for works painted in its colour.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="band band--plinth" aria-labelledby="daily-title">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow">Colour of the day</p>
+          <h2 id="daily-title">Today's shade: <span data-daily-name>Mixing&hellip;</span></h2>
+          <p class="section-head__meta">
+            <span class="chip" data-daily-chip><span class="chip__swatch" data-daily-swatch></span><code data-daily-hex>#------</code></span>
+            <a href="explore.html" data-daily-link>See every match</a>
+          </p>
+        </header>
+
+        <div class="daily-grid" data-daily-grid aria-live="polite" aria-busy="true">
+          <div class="art-card art-card--skeleton" aria-hidden="true"></div>
+          <div class="art-card art-card--skeleton" aria-hidden="true"></div>
+          <div class="art-card art-card--skeleton" aria-hidden="true"></div>
+          <div class="art-card art-card--skeleton" aria-hidden="true"></div>
+        </div>
+        <p class="status" data-daily-status role="status"></p>
+      </div>
+    </section>
+
+    <section class="band" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow">How it works</p>
+          <h2 id="how-title">From a single colour to your own exhibition</h2>
+        </header>
+        <ol class="steps">
+          <li class="steps__item">
+            <h3>Choose a colour</h3>
+            <p>Use the colour picker, type a hex code, or start from a historic pigment such as ultramarine or vermilion.</p>
+          </li>
+          <li class="steps__item">
+            <h3>Refine the search</h3>
+            <p>Set how close the match should be, narrow by era and type of work, and add keywords like <em>river</em> or <em>portrait</em>.</p>
+          </li>
+          <li class="steps__item">
+            <h3>Collect what you love</h3>
+            <p>Open any work for its full label, the artist's story, and a button to hang it in your exhibition.</p>
+          </li>
+          <li class="steps__item">
+            <h3>Plan a real visit</h3>
+            <p>Hueseum checks which of your works are on the gallery walls in Chicago and builds a route card for your trip.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="band band--plinth" aria-labelledby="why-title">
+      <div class="wrap split">
+        <div>
+          <p class="eyebrow">Why colour?</p>
+          <h2 id="why-title">Museums sort by date and name. People remember colour.</h2>
+        </div>
+        <div class="prose">
+          <p>Ask someone about a painting they saw years ago and they will often describe its colour before its title: "the blue one with the haystacks". Collection search tools rarely let you look that way.</p>
+          <p>The Art Institute's open data stores the hue, saturation and lightness of each artwork's dominant colour. Hueseum turns that data into a search you can browse with your eyes.</p>
+          <p><a href="about.html#how-matching-works">Read how the colour matching works</a></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <p>Hueseum is a student web application. Artwork data and images: <a href="https://www.artic.edu/open-access/public-api">Art Institute of Chicago API</a>. Colour names: <a href="https://www.thecolorapi.com/">The Color API</a>. Artist biographies: <a href="https://en.wikipedia.org/">Wikipedia</a>.</p>
+      <ul class="site-footer__links">
+        <li><a href="about.html#accessibility">Accessibility</a></li>
+        <li><a href="about.html#feedback">Feedback</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About | Hueseum</title>
+  <meta name="description" content="How Hueseum matches colours, the open APIs it uses, and its accessibility statement.">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,500..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/common.js" defer></script>
+  <script src="js/about.js" defer></script>
+</head>
+<body id="page-about">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html" aria-label="Hueseum home">
+        <svg class="brand__mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <path d="M32 4 L60 20 H4 Z" fill="currentColor"/>
+          <rect x="4" y="22" width="56" height="4" fill="currentColor"/>
+          <rect x="8" y="29" width="6" height="22" fill="#D9381E"/>
+          <rect x="17" y="29" width="6" height="22" fill="#E6B422"/>
+          <rect x="26" y="29" width="6" height="22" fill="#3A9A5B"/>
+          <rect x="35" y="29" width="6" height="22" fill="#2A7AB0"/>
+          <rect x="44" y="29" width="6" height="22" fill="#2A3FC0"/>
+          <rect x="53" y="29" width="3" height="22" fill="#8A1E5C"/>
+          <rect x="4" y="54" width="56" height="6" fill="currentColor"/>
+        </svg>
+        <span class="brand__word">Hueseum</span>
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-toggle__bars" aria-hidden="true"></span>
+        <span class="menu-toggle__label">Menu</span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul class="site-nav__list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="explore.html">Explore by colour</a></li>
+          <li><a href="exhibition.html">My exhibition <span class="count-badge" data-exhibition-count>0</span></a></li>
+          <li><a href="about.html" aria-current="page">About</a></li>
+        </ul>
+        <button class="lights-toggle" type="button" aria-pressed="false" data-lights-toggle>
+          <span class="lights-toggle__dot" aria-hidden="true"></span>
+          <span data-lights-label>Lights off</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="wrap about">
+      <header class="page-head">
+        <p class="eyebrow">About Hueseum</p>
+        <h1>A gallery you enter by colour</h1>
+        <p class="lede">Hueseum is a web application that searches a real museum collection by the dominant colour of each artwork. It was built with HTML, CSS and JavaScript, and it talks to three open APIs.</p>
+      </header>
+
+      <nav class="toc" aria-labelledby="toc-title">
+        <h2 id="toc-title" class="toc__title">On this page</h2>
+        <ul>
+          <li><a href="#how-matching-works">How colour matching works</a></li>
+          <li><a href="#apis">The APIs behind Hueseum</a></li>
+          <li><a href="#accessibility">Accessibility statement</a></li>
+          <li><a href="#faq">Questions</a></li>
+          <li><a href="#feedback">Send feedback</a></li>
+        </ul>
+      </nav>
+
+      <article class="prose about__article">
+        <section id="how-matching-works" aria-labelledby="matching-title">
+          <h2 id="matching-title">How colour matching works</h2>
+          <p>The Art Institute of Chicago analyses every digitised image and records its dominant colour as three numbers:</p>
+          <dl class="hsl-key">
+            <div><dt>Hue (H)</dt><dd>Position on the colour wheel, from 0&deg; to 360&deg;. Red sits at 0&deg;, green near 120&deg;, blue near 240&deg;.</dd></div>
+            <div><dt>Saturation (S)</dt><dd>How intense the colour is, from 0% (grey) to 100% (pure colour).</dd></div>
+            <div><dt>Lightness (L)</dt><dd>How light or dark it is, from 0% (black) to 100% (white).</dd></div>
+          </dl>
+          <p>When you search, Hueseum converts your colour to the same three numbers and asks the collection for works whose hue falls inside your tolerance. If you choose to match tone, it also limits saturation and lightness. Colours with very low saturation, such as greys, browns and blacks, are matched on lightness alone.</p>
+          <p>Each result then gets a match score out of 100. Hue difference counts for 60% of the score, and saturation and lightness for 20% each.</p>
+        </section>
+
+        <section id="apis" aria-labelledby="apis-title">
+          <h2 id="apis-title">The APIs behind Hueseum</h2>
+          <ul class="api-list">
+            <li>
+              <h3><a href="https://api.artic.edu/docs/">Art Institute of Chicago API</a></h3>
+              <p>Search by colour, era, type and keywords. Full details for one work. Live check of which works are on display, and in which gallery. Images come from its IIIF image server.</p>
+            </li>
+            <li>
+              <h3><a href="https://www.thecolorapi.com/docs">The Color API</a></h3>
+              <p>Gives each colour you pick a human name, and suggests neighbouring colours to try next.</p>
+            </li>
+            <li>
+              <h3><a href="https://en.wikipedia.org/api/rest_v1/">Wikipedia REST API</a></h3>
+              <p>Adds a short biography of the artist when you open a work.</p>
+            </li>
+          </ul>
+        </section>
+
+        <section id="accessibility" aria-labelledby="a11y-title">
+          <h2 id="a11y-title">Accessibility statement</h2>
+          <p>Hueseum aims to meet the <a href="https://www.w3.org/TR/WCAG22/">Web Content Accessibility Guidelines (WCAG) 2.2</a> at level AA.</p>
+          <ul>
+            <li>Every page can be used with a keyboard alone. A "Skip to main content" link is the first thing you reach.</li>
+            <li>Colour is never the only way information is shown. Every swatch also has a name and a hex code, and match scores are written as numbers.</li>
+            <li>Artwork images use the museum's own descriptive alt text where it exists.</li>
+            <li>Form fields have visible labels, and errors are explained in words next to the field.</li>
+            <li>Search results and status messages are announced to screen readers.</li>
+            <li>Text and controls meet a contrast ratio of at least 4.5:1 in both lighting modes.</li>
+            <li>Animations are switched off if your device asks for reduced motion.</li>
+            <li>Body text uses Atkinson Hyperlegible, a typeface designed by the Braille Institute for low-vision readers.</li>
+          </ul>
+        </section>
+
+        <section id="faq" aria-labelledby="faq-title">
+          <h2 id="faq-title">Questions</h2>
+          <details>
+            <summary>Why do some results look a different colour from the one I picked?</summary>
+            <p>The museum measures the single most common colour in an image. A painting can be mostly blue sky with a small red boat, and it will be listed as blue. Raise the tolerance or turn off "Match tone" for broader results.</p>
+          </details>
+          <details>
+            <summary>Where is my exhibition saved?</summary>
+            <p>In your browser's local storage, on this device only. Nothing is sent to a server. Clearing your browser data removes it.</p>
+          </details>
+          <details>
+            <summary>Can I reuse the images?</summary>
+            <p>Works marked "Public domain" are released by the Art Institute of Chicago under a CC0 licence. Others are shown for study only. Tick "Public domain works only" on the Explore page to see reusable works.</p>
+          </details>
+          <details>
+            <summary>Is the route card a ticket?</summary>
+            <p>No. It is a planning aid. Check opening times and buy admission on the <a href="https://www.artic.edu/visit">Art Institute of Chicago website</a>.</p>
+          </details>
+        </section>
+      </article>
+
+      <section class="panel feedback" id="feedback" aria-labelledby="feedback-title">
+        <h2 id="feedback-title">Send feedback</h2>
+        <p>Tell us what worked and what didn't. Your message stays in this browser; Hueseum has no server, so nothing is sent anywhere.</p>
+        <form id="feedback-form" class="stack-form" novalidate>
+          <div class="field-pair">
+            <div class="field">
+              <label for="fb-name">Name</label>
+              <input type="text" id="fb-name" name="name" required maxlength="50" autocomplete="name" aria-describedby="fb-name-error">
+              <p class="error" id="fb-name-error" data-error-for="fb-name"></p>
+            </div>
+            <div class="field">
+              <label for="fb-email">Email</label>
+              <input type="email" id="fb-email" name="email" required maxlength="80" autocomplete="email" aria-describedby="fb-email-error">
+              <p class="error" id="fb-email-error" data-error-for="fb-email"></p>
+            </div>
+          </div>
+
+          <fieldset class="rating">
+            <legend>How was your visit?</legend>
+            <div class="rating__list">
+              <label class="rating__item"><input type="radio" name="rating" value="1" required><span>1</span><span class="visually-hidden"> out of 5, poor</span></label>
+              <label class="rating__item"><input type="radio" name="rating" value="2"><span>2</span><span class="visually-hidden"> out of 5</span></label>
+              <label class="rating__item"><input type="radio" name="rating" value="3"><span>3</span><span class="visually-hidden"> out of 5</span></label>
+              <label class="rating__item"><input type="radio" name="rating" value="4"><span>4</span><span class="visually-hidden"> out of 5</span></label>
+              <label class="rating__item"><input type="radio" name="rating" value="5"><span>5</span><span class="visually-hidden"> out of 5, excellent</span></label>
+            </div>
+            <p class="rating__ends" aria-hidden="true"><span>Poor</span><span>Excellent</span></p>
+            <p class="error" data-error-for="rating" id="rating-error"></p>
+          </fieldset>
+
+          <div class="field">
+            <label for="fb-topic">What is it about?</label>
+            <select id="fb-topic" name="topic">
+              <option>General</option>
+              <option>Colour matching</option>
+              <option>Accessibility</option>
+              <option>Something is broken</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="fb-message">Message</label>
+            <textarea id="fb-message" name="message" rows="5" required minlength="10" maxlength="500" aria-describedby="fb-message-count fb-message-error"></textarea>
+            <p class="hint counter" id="fb-message-count" aria-live="polite">500 characters left</p>
+            <p class="error" id="fb-message-error" data-error-for="fb-message"></p>
+          </div>
+
+          <div class="form-actions">
+            <button class="button button--primary" type="submit">Save feedback</button>
+          </div>
+          <p class="status status--success" id="feedback-status" role="status" tabindex="-1"></p>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <p>Hueseum is a student web application. Artwork data and images: <a href="https://www.artic.edu/open-access/public-api">Art Institute of Chicago API</a>. Colour names: <a href="https://www.thecolorapi.com/">The Color API</a>. Artist biographies: <a href="https://en.wikipedia.org/">Wikipedia</a>.</p>
+      <ul class="site-footer__links">
+        <li><a href="about.html#accessibility">Accessibility</a></li>
+        <li><a href="about.html#feedback">Feedback</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
