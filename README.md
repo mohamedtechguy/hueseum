@@ -58,28 +58,6 @@ Form data drives every API call: the search form builds the AIC query; the colou
 - Every control is keyboard accessible, with visible focus and labels on every field
 - Body text uses Atkinson Hyperlegible, a typeface designed for low-vision readers
 
-## Run it locally
-
-Open `index.html` in a browser, or for the most reliable results serve the folder:
-
-```
-python -m http.server 8000
-```
-
-Then visit http://localhost:8000. An internet connection is needed for the APIs and fonts.
-
-## Publish it (public URL)
-
-**Option A: GitHub Pages**
-1. Create a new public repository on GitHub, for example `hueseum`.
-2. Upload every file and folder from this project to the repository root (Add file → Upload files).
-3. Go to Settings → Pages, set Source to "Deploy from a branch", choose `main` and `/ (root)`, and save.
-4. After a minute your site is live at `https://<your-username>.github.io/hueseum/`.
-
-**Option B: Netlify Drop**
-1. Go to https://app.netlify.com/drop.
-2. Drag the project folder onto the page.
-3. Netlify gives you a public URL straight away. Sign in to keep it.
 
 ## File structure
 
